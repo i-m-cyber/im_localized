@@ -35,7 +35,7 @@ void main() async {
   runApp(
     ImLocalizedApp.fromList(
       app: const MyApp(),
-      initialTranslations: _initialTranslations,
+      initialTranslations: initialTranslations,
     ),
   );
 }

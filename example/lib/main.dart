@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     final title = LocaleKeys.hiMessage.translate(args: {'name': 'Sara'});
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: title,
       home: Scaffold(
         appBar: AppBar(
@@ -84,8 +85,6 @@ class _MyAppState extends State<MyApp> {
   Widget _buildLanguageSelector() {
     return DropdownButton<Locale>(
       value: context.locale,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
       onChanged: (Locale? locale) {
         if (locale != null) {
           context.setLocale(locale);

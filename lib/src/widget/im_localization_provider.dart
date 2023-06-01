@@ -10,11 +10,17 @@ class _ImLocalizedProvider extends InheritedWidget {
   ///
   /// ```dart
   ///   delegates = [
-  ///     delegate
+  ///     delegate,
+  ///     GlobalMaterialLocalizations.delegate,
+  ///     GlobalWidgetsLocalizations.delegate,
+  ///     GlobalCupertinoLocalizations.delegate,
   ///   ],
   /// ```
   List<LocalizationsDelegate> get delegates => [
         delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ];
 
   /// Get List of supported locales
