@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:im_localized/im_localized.dart';
 import 'package:im_localized/src/utils/select_locale.dart';

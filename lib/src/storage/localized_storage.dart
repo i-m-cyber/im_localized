@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:im_localized/im_localized.dart';
 
 abstract class LocaleStorage {

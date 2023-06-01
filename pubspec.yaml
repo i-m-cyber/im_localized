@@ -5,7 +5,7 @@ repository: https://github.com/i-m-cyber/im_localized
 
 environment:
   sdk: '>=3.0.2 <4.0.0'
-  flutter: '>=1.17.0'
+  flutter: '>=3.0.0'
 
 dependencies:
   flutter:
@@ -24,3 +24,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
+  plugin:
+    platforms:
+      web: ImLocalizedApp
