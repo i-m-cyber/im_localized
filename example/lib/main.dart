@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+
 import 'package:im_localized/im_localized.dart';
 
 import 'l10n/localization.dart';
 
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await ImLocalizedApp.ensureInitialized();
-
   runApp(
     ImLocalizedApp.fromList(
       app: const MyApp(),
       initialTranslations: initialTranslations,
+      localeStorage: SharedPreferencesLocaleStorage(),
+      translationsStorage: SharedPreferencesTranslationsStorage(),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -32,17 +33,40 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _injectLanguages() {
+    context.replaceTranslations(
+      [
+        {
+          "@@locale": "en",
+          LocaleKeys.languageFlag: "English",
+          LocaleKeys.hiMessage: "Hi {name}!",
+          LocaleKeys.increment: "Increment",
+          LocaleKeys.itemCounter:
+              "Currently there { count, plural, =0{are no items} =1{is one item} other{are # items}} in this app",
+        },
+        {
+          "@@locale": "es",
+          LocaleKeys.languageFlag: "Spanish",
+          LocaleKeys.hiMessage: "¡Hola {name}!",
+          LocaleKeys.increment: "Incremento",
+          LocaleKeys.itemCounter:
+              "Actualmente hay { count, plural, =0{no hay elementos} =1{un elemento} other{# elementos}} en esta aplicación",
+        },
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final title = LocaleKeys.hiMessage.translate(args: {'name': 'Sara'});
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: title,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(title, style: Theme.of(context).textTheme.headlineMedium),
+          title: Text(
+            LocaleKeys.hiMessage.translate(args: {'name': 'Sara'}),
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
           actions: [_buildLanguageSelector()],
         ),
         body: Column(
@@ -73,10 +97,23 @@ class _MyAppState extends State<MyApp> {
             )
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: LocaleKeys.increment.translate(),
-          child: const Icon(Icons.add),
+        bottomNavigationBar: Container(
+          color: Theme.of(context).primaryColorLight,
+          child: SafeArea(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: _incrementCounter,
+                  icon: const Icon(Icons.add),
+                ),
+                IconButton(
+                  onPressed: _injectLanguages,
+                  icon: const Icon(Icons.cloud_download),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ part of 'im_localized_app.dart';
 
 class _ImLocalizedProvider extends InheritedWidget {
   final ImLocalizedApp parent;
-  final ImLocalizedController _localeState;
+  final ImLocalizedController _controller;
   final Locale? currentLocale;
   final _ImLocalizationDelegate delegate;
 
@@ -30,46 +30,62 @@ class _ImLocalizedProvider extends InheritedWidget {
 
   _ImLocalizedProvider(
     this.parent,
-    this._localeState, {
+    this._controller, {
     Key? key,
     required this.delegate,
-  })  : currentLocale = _localeState.locale,
-        super(key: key, child: parent.app) {
+  })  : currentLocale = _controller.locale,
+        super(
+            key: key,
+            child: _controller.initialized ? parent.app : _loaderApp) {
     ImLocalizedApp.logger.d('Init provider');
   }
 
   /// Get current locale
-  Locale get locale => _localeState.locale;
+  Locale get locale => _controller.locale;
 
   /// Get fallback locale
-  Locale? get fallbackLocale => parent.fallbackLocale;
+  List<Locale> get fallbackLocales => parent.fallbackLocales;
   // Locale get startLocale => parent.startLocale;
 
   /// Change app locale
   Future<void> setLocale(Locale locale) async {
     // Check old locale
-    if (locale != _localeState.locale) {
+    if (locale != _controller.locale) {
       assert(parent.supportedLocales.contains(locale));
-      await _localeState.setLocale(locale);
+      await _controller.setLocale(locale);
     }
   }
 
   /// Clears a saved locale from device storage
   Future<void> deleteSavedLocale() async {
-    await _localeState.deleteSavedLocale();
+    await _controller.deleteSavedLocale();
   }
 
   /// Getting device locale from platform
-  Locale get deviceLocale => _localeState.deviceLocale;
+  Locale get deviceLocale => _controller.deviceLocale;
 
   /// Reset locale to platform locale
-  Future<void> resetLocale() => _localeState.resetLocale();
+  Future<void> resetLocale() => _controller.resetLocale();
+
+  /// Sets new translations and saves it to storage if translationsStorage
+  /// is not null
+  Future<void> replaceTranslations(
+          List<Map<LocalizationKey, LocalizationValue>> next) =>
+      _controller.replaceTranslations(next);
 
   @override
   bool updateShouldNotify(_ImLocalizedProvider oldWidget) {
-    return oldWidget.currentLocale != locale;
+    return true;
+    // return oldWidget.currentLocale != locale;
   }
 
+  // Gets closest instance of this class that encloses the given context
   static _ImLocalizedProvider? of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ImLocalizedProvider>();
 }
+
+const _loaderApp = Material(
+  child: Center(
+    child: CircularProgressIndicator(),
+  ),
+);

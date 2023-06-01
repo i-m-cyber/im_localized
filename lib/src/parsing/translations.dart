@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:im_localized/im_localized.dart';
 import 'package:im_localized/src/utils/utils.dart';
@@ -95,6 +97,30 @@ class Translations {
   static Translations get instance => _instance == null
       ? throw Exception('ImLocalizations not initialized')
       : _instance!;
+
+  static Translations? maybeFromJson(String json) {
+    try {
+      final jsonList = (jsonDecode(json) as List)
+          .map((m) => (m as Map).cast<LocalizationKey, LocalizationValue>())
+          .toList();
+
+      return Translations.fromList(jsonList);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  String toJson() {
+    final jsonList = _localizationData.entries
+        .map((entry) => entry.value.containsKey('@@locale')
+            ? entry.value
+            : {
+                ...entry.value,
+                '@@locale': entry.key.toString(),
+              })
+        .toList();
+    return jsonEncode(jsonList);
+  }
 
   Translations copyWith({Locale? activeLocale}) {
     return Translations._(

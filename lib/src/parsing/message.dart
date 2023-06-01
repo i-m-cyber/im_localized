@@ -76,16 +76,16 @@ class Message {
   bool get placeholdersRequireFormatting =>
       placeholders.values.any((Placeholder p) => p.requiresFormatting);
 
-  static String _value(Map<String, Object?> bundle, String resourceId) {
-    final Object? value = bundle[resourceId];
-    if (value == null) {
-      throw L10nException('A value for resource "$resourceId" was not found.');
-    }
-    if (value is! String) {
-      throw L10nException('The value of "$resourceId" is not a string.');
-    }
-    return value;
-  }
+  // static String _value(Map<String, Object?> bundle, String resourceId) {
+  //   final Object? value = bundle[resourceId];
+  //   if (value == null) {
+  //     throw L10nException('A value for resource "$resourceId" was not found.');
+  //   }
+  //   if (value is! String) {
+  //     throw L10nException('The value of "$resourceId" is not a string.');
+  //   }
+  //   return value;
+  // }
 
   static Map<String, Object?>? _attributes(
     Map<String, Object?> bundle,

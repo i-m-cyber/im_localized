@@ -50,7 +50,7 @@ extension BuildContextEasyLocalizationExtension on BuildContext {
       ImLocalizedApp.of(this)!.supportedLocales;
 
   /// Get fallback locale
-  Locale? get fallbackLocale => ImLocalizedApp.of(this)!.fallbackLocale;
+  List<Locale> get fallbackLocale => ImLocalizedApp.of(this)!.fallbackLocales;
 
   /// {@macro flutter.widgets.widgetsApp.localizationsDelegates}
   /// return
@@ -75,52 +75,10 @@ extension BuildContextEasyLocalizationExtension on BuildContext {
   /// Reset locale to platform locale
   Future<void> resetLocale() => ImLocalizedApp.of(this)!.resetLocale();
 
-  /// An extension method for translating your language keys.
-  /// Subscribes the widget on current [Localization] that provided from context.
-  /// Throws exception if [Localization] was not found.
-  ///
-  /// [key] Localization key
-  /// [args] List of localized strings. Replaces {} left to right
-  /// [namedArgs] Map of localized strings. Replaces the name keys {key_name} according to its name
-  /// [gender] Gender switcher. Changes the localized string based on gender string
-  ///
-  /// Example:
-  ///
-  /// ```json
-  /// {
-  ///    "msg":"{} are written in the {} language",
-  ///    "msg_named":"Easy localization is written in the {lang} language",
-  ///    "msg_mixed":"{} are written in the {lang} language",
-  ///    "gender":{
-  ///       "male":"Hi man ;) {}",
-  ///       "female":"Hello girl :) {}",
-  ///       "other":"Hello {}"
-  ///    }
-  /// }
-  /// ```
-  /// ```dart
-  /// Text(context.tr('msg', args: ['Easy localization', 'Dart']), // args
-  /// Text(context.tr('msg_named', namedArgs: {'lang': 'Dart'}),   // namedArgs
-  /// Text(context.tr('msg_mixed', args: ['Easy localization'], namedArgs: {'lang': 'Dart'}), // args and namedArgs
-  /// Text(context.tr('gender', gender: _gender ? "female" : "male"), // gender
-  /// ```
-  // String tr(
-  //   String key, {
-  //   List<String>? args,
-  //   Map<String, String>? namedArgs,
-  //   String? gender,
-  // }) {
-  //   final localization = ImLocalization.of(this);
-
-  //   if (localization == null) {
-  //     throw const LocalizationNotFoundException();
-  //   }
-
-  //   return localization.tr(
-  //     key,
-  //     args: args,
-  //     namedArgs: namedArgs,
-  //     gender: gender,
-  //   );
-  // }
+  /// Sets new translations and saves it to storage if translationsStorage
+  /// is not null
+  Future<void> replaceTranslations(
+    List<Map<LocalizationKey, LocalizationValue>> next,
+  ) =>
+      ImLocalizedApp.of(this)!.replaceTranslations(next);
 }

@@ -139,10 +139,12 @@ Future<dynamic> readJsonFile(String filePath) async {
 }
 
 void printInfo(String info) {
+  // ignore: avoid_print
   print('\u001b[32mim_localized: $info\u001b[0m');
 }
 
 void printError(String error) {
+  // ignore: avoid_print
   print('\u001b[31m[ERROR] im_localized: $error\u001b[0m');
 }
 

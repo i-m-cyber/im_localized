@@ -4,6 +4,8 @@
   * GlobalMaterialLocalizations.delegate
   * GlobalWidgetsLocalizations.delegate
   * GlobalCupertinoLocalizations.delegate
+* Implemented save locale and translations to device storage
+* Added replaceTranslations method that replaces translations in runtime
 
 ## 0.0.3
 

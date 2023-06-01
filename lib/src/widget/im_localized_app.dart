@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:im_localized/im_localized.dart';
 import 'package:logger/logger.dart';
@@ -13,10 +13,19 @@ part 'im_localization_provider.dart';
 ///  ```
 ///  void main(){
 ///    runApp(
-///      ImLocalizedApp(
-///        child: MyApp(),
-///        supportedLocales: [Locale('en', 'US'), Locale('es', 'ES')],
-///      )
+///          ImLocalizedApp.fromList(
+///       app: const MyApp(),
+///       initialTranslations: initialTranslations,
+///
+///       /// uncomment following line to save
+///       /// locale changes to local storage
+///       // localeStorage: SharedPreferencesLocaleStorage(),
+///
+///       /// uncomment following line to save injected
+///       /// translations to local storage
+///       // translationsStorage: SharedPreferencesTranslationsStorage(),
+///     ),
+///   );
 ///    );
 ///  }
 ///  ```
@@ -28,23 +37,17 @@ class ImLocalizedApp extends StatefulWidget {
   /// {@macro flutter.widgets.widgetsApp.supportedLocales}
   final List<Locale> supportedLocales;
 
-  /// Locale when the locale is not in the list
-  final Locale? fallbackLocale;
-
-  /// Overrides device locale.
+  /// Overrides device's and saved locale
   final Locale? startLocale;
 
-  /// If a localization key is not found in the locale file, try to use the fallbackLocale file.
-  /// @Default value false
-  /// Example:
-  /// ```
-  /// useFallbackTranslations: true
-  /// ```
-  final bool useFallbackTranslations;
+  /// Locale when the locale is not in the list
+  final List<Locale> fallbackLocales;
 
-  /// Save locale in device storage.
-  /// @Default value true
-  final bool saveLocale;
+  /// handles loading locale on init and saving locale on change
+  final LocaleStorage? localeStorage;
+
+  /// handles loading translations on init and saving translations on change
+  final TranslationsStorage? translationsStorage;
 
   final Translations? _initialTranslations;
 
@@ -53,10 +56,10 @@ class ImLocalizedApp extends StatefulWidget {
     required this.app,
     required this.supportedLocales,
     Translations? initialTranslations,
-    this.fallbackLocale,
+    this.fallbackLocales = const [],
     this.startLocale,
-    this.useFallbackTranslations = false,
-    this.saveLocale = true,
+    this.localeStorage,
+    this.translationsStorage,
   }) : _initialTranslations = initialTranslations {
     assert(supportedLocales.isNotEmpty);
     ImLocalizedApp.logger.d('Start');
@@ -66,10 +69,10 @@ class ImLocalizedApp extends StatefulWidget {
     Key? key,
     required Widget app,
     required List<Map<String, String>> initialTranslations,
-    Locale? fallbackLocale,
     Locale? startLocale,
-    bool useFallbackTranslations = false,
-    bool saveLocale = true,
+    List<Locale> fallbackLocales = const [],
+    LocaleStorage? localeStorage,
+    TranslationsStorage? translationsStorage,
   }) {
     assert(initialTranslations.isNotEmpty);
 
@@ -78,12 +81,12 @@ class ImLocalizedApp extends StatefulWidget {
     return ImLocalizedApp._(
       key: key,
       app: app,
-      fallbackLocale: fallbackLocale,
-      initialTranslations: translations,
-      saveLocale: saveLocale,
       startLocale: startLocale,
+      fallbackLocales: fallbackLocales,
+      localeStorage: localeStorage,
+      translationsStorage: translationsStorage,
+      initialTranslations: translations,
       supportedLocales: translations.supportedLocales,
-      useFallbackTranslations: useFallbackTranslations,
     );
   }
 
@@ -95,13 +98,7 @@ class ImLocalizedApp extends StatefulWidget {
   static _ImLocalizedProvider? of(BuildContext context) =>
       _ImLocalizedProvider.of(context);
 
-  /// ensureInitialized needs to be called in main
-  /// so that savedLocale is loaded and used from the
-  /// start.
-  static Future<void> ensureInitialized() async =>
-      await ImLocalizedController.init();
-
-  /// Customizable logger
+  /// logger from package:logger
   static Logger logger = Logger(level: Level.nothing);
 }
 
@@ -112,18 +109,21 @@ class _ImLocalizedAppState extends State<ImLocalizedApp> {
   @override
   void initState() {
     ImLocalizedApp.logger.d('Init state');
+
     localizationController = ImLocalizedController(
-      fallbackLocale: widget.fallbackLocale,
-      translations: widget._initialTranslations,
-      saveLocale: widget.saveLocale,
       startLocale: widget.startLocale,
+      fallbackLocales: widget.fallbackLocales,
+      translations: widget._initialTranslations,
       supportedLocales: widget.supportedLocales,
-      useFallbackTranslations: widget.useFallbackTranslations,
+      localeStorage: widget.localeStorage,
+      translationsStorage: widget.translationsStorage,
     );
-    // causes localization to rebuild with new language
+
+    // rebuild when locale changes or new translations get injected
     localizationController!.addListener(() {
       if (mounted) setState(() {});
     });
+
     super.initState();
   }
 

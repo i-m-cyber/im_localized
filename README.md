@@ -36,6 +36,12 @@ void main() async {
     ImLocalizedApp.fromList(
       app: const MyApp(),
       initialTranslations: initialTranslations,
+
+      /// uncomment following line to save locale changes to local storage
+      // localeStorage: SharedPreferencesLocaleStorage(),
+
+      /// uncomment following line to save injected translations to local storage
+      // translationsStorage: SharedPreferencesTranslationsStorage(),
     ),
   );
 }
