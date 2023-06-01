@@ -29,9 +29,7 @@ class Translations {
             : bundles.bundles.first.locale.toLocale(),
         _localizationData = localizationData,
         _bundles = bundles,
-        _translations = translations {
-    _instance = this;
-  }
+        _translations = translations;
 
   factory Translations.fromMap(
     Map<Locale, Map<LocalizationKey, LocalizationValue>> localizationData, {
@@ -92,11 +90,16 @@ class Translations {
     return Translations.fromMap(map, activeLocale: activeLocale);
   }
 
-  static Translations? _instance;
+  static Translations Function()? _instanceGetter;
 
-  static Translations get instance => _instance == null
+  static Translations get instance => _instanceGetter == null
       ? throw Exception('ImLocalizations not initialized')
-      : _instance!;
+      : _instanceGetter!();
+
+  // ignore: non_constant_identifier_names
+  static UNSAFE_setInstanceGetter(Translations Function()? next) {
+    _instanceGetter = next;
+  }
 
   static Translations? maybeFromJson(String json) {
     try {

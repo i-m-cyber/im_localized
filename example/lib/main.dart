@@ -39,16 +39,16 @@ class _MyAppState extends State<MyApp> {
         {
           "@@locale": "en",
           LocaleKeys.languageFlag: "English",
-          LocaleKeys.hiMessage: "Hi {name}!",
+          LocaleKeys.hiMessage: "Hello {name}!",
           LocaleKeys.itemCounter:
-              "Currently there { count, plural, =0{are no items} =1{is one item} other{are # items}} in this app",
+              "{ count, plural, =0{no items} =1{one item} other{there are # items}}",
         },
         {
           "@@locale": "es",
           LocaleKeys.languageFlag: "Spanish",
-          LocaleKeys.hiMessage: "¡Hola {name}!",
+          LocaleKeys.hiMessage: "¡Buenos días {name}!",
           LocaleKeys.itemCounter:
-              "Actualmente hay { count, plural, =0{no hay elementos} =1{un elemento} other{# elementos}} en esta aplicación",
+              "{ count, plural, =0{sin artículos} =1{un artículo} other{hay # artículos}}",
         },
       ],
     );
@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
                 IconButton(
                   onPressed: _injectLanguages,
                   icon: const Icon(Icons.cloud_download),
-                )
+                ),
               ],
             ),
           ),

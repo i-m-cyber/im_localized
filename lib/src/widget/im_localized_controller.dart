@@ -20,7 +20,9 @@ class ImLocalizedController extends ChangeNotifier {
     Locale? startLocale,
     this.fallbackLocales = const [],
   }) {
-    _translations = translations;
+    if (translations != null) {
+      _setTranslations(translations);
+    }
     _init(supportedLocales);
   }
 
@@ -37,7 +39,7 @@ class ImLocalizedController extends ChangeNotifier {
   Translations? _fallbackTranslations;
 
   //******************************************/
-  //    Getters
+  //    Getters & Setters
   //******************************************/
 
   Translations? get translations => _translations;
@@ -54,6 +56,11 @@ class ImLocalizedController extends ChangeNotifier {
 
   Locale get locale => _locale ?? const Locale('und');
 
+  void _setTranslations(Translations next) {
+    _translations = next;
+    Translations.UNSAFE_setInstanceGetter(() => _translations!);
+  }
+
   //******************************************/
   //    Methods
   //******************************************/
@@ -66,7 +73,7 @@ class ImLocalizedController extends ChangeNotifier {
     }
 
     _locale = nextLocale;
-    _translations = _translations?.copyWith(activeLocale: _locale);
+    _setTranslations(_translations!.copyWith(activeLocale: _locale));
     notifyListeners();
     ImLocalizedApp.logger.d('Locale $locale changed');
     if (saveToStorage && localeStorage != null) {
@@ -110,7 +117,7 @@ class ImLocalizedController extends ChangeNotifier {
     final nextTranslations =
         Translations.fromList(next, activeLocale: _translations?.activeLocale);
 
-    _translations = nextTranslations;
+    _setTranslations(nextTranslations);
     notifyListeners();
     if (translationsStorage != null) {
       return translationsStorage!.saveTranslations(_translations!);
@@ -138,7 +145,9 @@ class ImLocalizedController extends ChangeNotifier {
       // get translations if translationsStorage is not null
       if (translationsStorage != null)
         translationsStorage!.loadTranslations().then((translations) {
-          _translations = translations ?? _translations;
+          if (translations != null) {
+            _setTranslations(translations);
+          }
         }),
     ]);
 
