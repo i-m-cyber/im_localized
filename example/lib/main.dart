@@ -7,10 +7,16 @@ import 'l10n/localization.dart';
 void main() async {
   runApp(
     ImLocalizedApp.fromList(
-      app: const MyApp(),
+      /// initial translations loaded from RAM
       initialTranslations: initialTranslations,
+
+      /// save locale changes to local storage
       localeStorage: SharedPreferencesLocaleStorage(),
+
+      /// save injected translations to local storage
       translationsStorage: SharedPreferencesTranslationsStorage(),
+
+      app: const MyApp(),
     ),
   );
 }
@@ -34,7 +40,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _injectLanguages() {
-    context.replaceTranslations(
+    context.injectTranslations(
       [
         {
           "@@locale": "en",

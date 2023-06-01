@@ -69,9 +69,9 @@ class _ImLocalizedProvider extends InheritedWidget {
 
   /// Sets new translations and saves it to storage if translationsStorage
   /// is not null
-  Future<void> replaceTranslations(
+  Future<void> injectTranslations(
           List<Map<LocalizationKey, LocalizationValue>> next) =>
-      _controller.replaceTranslations(next);
+      _controller.injectTranslations(next);
 
   @override
   bool updateShouldNotify(_ImLocalizedProvider oldWidget) {

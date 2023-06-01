@@ -29,19 +29,18 @@ Checkout [example/lib/main.dart](example/lib/main.dart) for complete example.
 
 ```dart
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await ImLocalizedApp.ensureInitialized();
-
   runApp(
     ImLocalizedApp.fromList(
-      app: const MyApp(),
+      /// initial translations loaded from RAM
       initialTranslations: initialTranslations,
 
-      /// uncomment following line to save locale changes to local storage
+      /// save locale changes to local storage
       // localeStorage: SharedPreferencesLocaleStorage(),
 
-      /// uncomment following line to save injected translations to local storage
+      /// save injected translations to local storage
       // translationsStorage: SharedPreferencesTranslationsStorage(),
+
+      app: const MyApp(),
     ),
   );
 }

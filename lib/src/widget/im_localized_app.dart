@@ -13,17 +13,17 @@ part 'im_localization_provider.dart';
 ///  ```
 ///  void main(){
 ///    runApp(
-///          ImLocalizedApp.fromList(
-///       app: const MyApp(),
-///       initialTranslations: initialTranslations,
+///      ImLocalizedApp.fromList(
+///        /// initial translations loaded from RAM
+///        initialTranslations: initialTranslations,
 ///
-///       /// uncomment following line to save
-///       /// locale changes to local storage
-///       // localeStorage: SharedPreferencesLocaleStorage(),
+///        /// save locale changes to local storage
+///        // localeStorage: SharedPreferencesLocaleStorage(),
 ///
-///       /// uncomment following line to save injected
-///       /// translations to local storage
-///       // translationsStorage: SharedPreferencesTranslationsStorage(),
+///        /// save injected translations to local storage
+///        // translationsStorage: SharedPreferencesTranslationsStorage(),
+///
+///        app: const MyApp(),
 ///     ),
 ///   );
 ///    );

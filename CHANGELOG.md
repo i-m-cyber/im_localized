@@ -1,6 +1,8 @@
 ## 0.0.5
 
 * Display key instead of "" when using key unsupported by LocaleKeys
+* Set Translations.instance getter on every ImLocalizedController.translations change
+* Rename replaceTranslations to injectTranslations
 
 ## 0.0.4
 
