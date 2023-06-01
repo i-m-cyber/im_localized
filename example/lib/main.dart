@@ -40,7 +40,6 @@ class _MyAppState extends State<MyApp> {
           "@@locale": "en",
           LocaleKeys.languageFlag: "English",
           LocaleKeys.hiMessage: "Hi {name}!",
-          LocaleKeys.increment: "Increment",
           LocaleKeys.itemCounter:
               "Currently there { count, plural, =0{are no items} =1{is one item} other{are # items}} in this app",
         },
@@ -48,7 +47,6 @@ class _MyAppState extends State<MyApp> {
           "@@locale": "es",
           LocaleKeys.languageFlag: "Spanish",
           LocaleKeys.hiMessage: "¡Hola {name}!",
-          LocaleKeys.increment: "Incremento",
           LocaleKeys.itemCounter:
               "Actualmente hay { count, plural, =0{no hay elementos} =1{un elemento} other{# elementos}} en esta aplicación",
         },

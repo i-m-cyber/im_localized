@@ -143,16 +143,16 @@ class Translations {
     final translationEntries = _translations[resourceId]?.entries;
 
     if (translationEntries == null) {
-      return null;
+      return resourceId;
     }
 
-    final asd = translationEntries.firstWhere(
+    final match = translationEntries.firstWhere(
       (translationEntry) =>
           translationEntry.key.supports(locale ?? activeLocale),
       orElse: () => translationEntries.first,
     );
 
-    return asd.value.translate(args ?? const {});
+    return match.value.translate(args ?? const {});
   }
 
   String translate(

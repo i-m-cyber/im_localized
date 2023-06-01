@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Display key instead of "" when using key unsupported by LocaleKeys
+
 ## 0.0.4
 
 * Added default delegates from flutter_localizations library
