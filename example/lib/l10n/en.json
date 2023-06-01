@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "languageFlag": "🇺🇸",
+  "hiMessage": "Hi {name}!",
+  "increment": "Increment",
+  "itemCounter": "Currently there { count, plural, =0{are no items} =1{is one item} other{are # items}} in this app"
+}
