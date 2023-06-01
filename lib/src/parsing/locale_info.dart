@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:intl/locale.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 class LocaleInfo implements Comparable<LocaleInfo> {

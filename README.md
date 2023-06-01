@@ -10,20 +10,48 @@ Flutter ICU compatible Localization library with support for JSONs, runtime pars
 
 ## Getting started
 
-List prerequisites and provide or point to information on how to
-start using the package.
+### Installation
+
+```bash
+flutter pub add im_localized
+```
+
+Or add to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  im_localized: <last_version>
+```
 
 ## Usage
 
-Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Checkout [example/lib/main.dart](example/lib/main.dart) for complete example.
 
 ```dart
-const like = 'sample';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ImLocalizedApp.ensureInitialized();
+
+  runApp(
+    ImLocalizedApp.fromList(
+      app: const MyApp(),
+      initialTranslations: _initialTranslations,
+    ),
+  );
+}
 ```
+
+## Acknowledgments
+
+This library uses source code from the following projects:
+
+- [easy_localization](https://pub.dev/packages/easy_localization) by [github.com/aissat/](https://github.com/aissat/)
+- [flutter_tools](https://github.com/flutter/flutter/tree/master/packages/flutter_tools) from the Flutter team
 
 ## Additional information
 
-Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Work in progress
+
+## License
+
+[LICENSE](LICENSE)

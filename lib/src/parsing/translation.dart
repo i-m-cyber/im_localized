@@ -9,7 +9,7 @@ abstract class Translation {
   String translate(Map<String, Object?> args);
 
   static Translation fromMessage(Message message) {
-    assert(message.parsedMessages.length == 1);
+    assert(message.parsedMessages.isNotEmpty);
     final entry = message.parsedMessages.entries.first;
     final locale = entry.key;
     final node = entry.value!;
@@ -52,6 +52,9 @@ class StaticTranslation extends Translation {
 
   @override
   String translate(Map<String, Object?> args) => _value;
+
+  @override
+  String toString() => _value;
 }
 
 class PlaceholderTranslation extends Translation {
@@ -64,6 +67,9 @@ class PlaceholderTranslation extends Translation {
 
   @override
   String translate(Map<String, Object?> args) => args[identifier].toString();
+
+  @override
+  String toString() => '{$identifier}';
 }
 
 class PluralTranslation extends Translation {
@@ -106,8 +112,13 @@ class PluralTranslation extends Translation {
     }
   }
 
+  @override
+  String toString() => '#{$identifier}';
+
   static String Function(num) _addTranslationsFromPluralParts(
-      List<Node> parts, LocaleInfo locale) {
+    List<Node> parts,
+    LocaleInfo locale,
+  ) {
     assert(parts.every((part) => part.type == ST.pluralPart));
 
     final translations = <dynamic, String>{};
@@ -116,14 +127,14 @@ class PluralTranslation extends Translation {
       dynamic identifier;
       dynamic translation;
 
-      for (final pluralPiece in part.children) {
-        switch (pluralPiece.type) {
+      for (final partChild in part.children) {
+        switch (partChild.type) {
           case ST.identifier:
-            identifier = pluralPiece.value;
+            identifier = partChild.value;
             break;
 
           case ST.number:
-            identifier = num.parse(pluralPiece.value!);
+            identifier = num.parse(partChild.value!);
             break;
 
           case ST.other:
@@ -131,7 +142,7 @@ class PluralTranslation extends Translation {
             break;
 
           case ST.message:
-            translation = Translation.fromNode(pluralPiece, locale);
+            translation = Translation.fromNode(partChild, locale);
             break;
 
           default:
@@ -148,8 +159,9 @@ class PluralTranslation extends Translation {
 
       if (translation is! StaticTranslation) {
         throw Exception(
-          'Localization: PluralTranslation: '
-          'Only static translations are supported in plural parts.',
+          'Localization: PluralTranslation: \n'
+          'Only static translations are supported in plural parts.\n'
+          'Got ${translation.runtimeType} instead.',
         );
       }
 
@@ -190,4 +202,8 @@ class MultiTranslation extends Translation {
   String translate(Map<String, Object?> args) {
     return translations.map((t) => t.translate(args)).join();
   }
+
+  @override
+  String toString() =>
+      translations.map((translation) => translation.toString()).join('');
 }
