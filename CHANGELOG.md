@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Add support for platforms other than **web** to pubspec.yaml
+
 ## 0.0.5
 
 * Display key instead of "" when using key unsupported by LocaleKeys

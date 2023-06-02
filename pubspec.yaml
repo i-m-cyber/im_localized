@@ -26,4 +26,12 @@ dev_dependencies:
 flutter:
   plugin:
     platforms:
-      web: ImLocalizedApp
+      android:
+        package: io.flutter.plugins.im_localized
+        pluginClass: ImLocalizedApp
+      ios:
+        pluginClass: ImLocalizedApp
+      macos:
+        pluginClass: ImLocalizedApp
+      web:
+        pluginClass: ImLocalizedApp
