@@ -90,6 +90,19 @@ class Translations {
     return Translations.fromMap(map, activeLocale: activeLocale);
   }
 
+  factory Translations.fromPhrase(
+    String phrase, {
+    String key = 'default',
+    String locale = 'und',
+  }) {
+    return Translations.fromList([
+      {
+        '@@locale': locale,
+        key: phrase,
+      }
+    ]);
+  }
+
   static Translations Function()? _instanceGetter;
 
   static Translations get instance => _instanceGetter == null
@@ -146,7 +159,10 @@ class Translations {
     final translationEntries = _translations[resourceId]?.entries;
 
     if (translationEntries == null) {
-      return resourceId;
+      return Translations.fromPhrase(resourceId, key: 'default').maybeTranslate(
+        'default',
+        args: args,
+      );
     }
 
     final match = translationEntries.firstWhere(

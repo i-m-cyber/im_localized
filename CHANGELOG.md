@@ -1,3 +1,7 @@
+## 0.0.8
+
+* add interpolation support for inline strings'
+
 ## 0.0.7
 
 * add generating from json instructions to README
