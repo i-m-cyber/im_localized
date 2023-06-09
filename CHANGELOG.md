@@ -1,3 +1,7 @@
+## 0.0.7
+
+* add generating from json instructions to README
+
 ## 0.0.6
 
 * Add support for platforms other than **web** to pubspec.yaml

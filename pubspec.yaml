@@ -24,14 +24,3 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
-  plugin:
-    platforms:
-      android:
-        package: io.flutter.plugins.im_localized
-        pluginClass: ImLocalizedApp
-      ios:
-        pluginClass: ImLocalizedApp
-      macos:
-        pluginClass: ImLocalizedApp
-      web:
-        pluginClass: ImLocalizedApp

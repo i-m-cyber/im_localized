@@ -46,6 +46,11 @@ void main() async {
 }
 ```
 
+## Generating initial localizations from JSON or ARB files
+
+1. Create at least one localization file (i.e. lib/l10n/en.json)
+2. run generate script `flutter pub run im_localized:generate`
+
 ## Acknowledgments
 
 This library uses source code from the following projects:
