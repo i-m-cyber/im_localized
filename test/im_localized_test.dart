@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:im_localized/im_localized.dart';
+
+import '../bin/generate.dart';
 
 void main() {
   test('translates plural in single language app', () {
@@ -81,5 +85,10 @@ void main() {
     translations = translations.copyWith(activeLocale: const Locale('es'));
 
     expect(translations.translate('languageFlag'), "🇪🇸");
+  });
+
+  test('can parse .jsonc file', () async {
+    final json = await readJsonFile('./test/en.jsonc');
+    expect(json['@@locale'], 'en');
   });
 }

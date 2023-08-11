@@ -1,3 +1,7 @@
+## 0.0.9
+
+* add support for .jsonc files
+
 ## 0.0.8
 
 * add interpolation support for inline strings'

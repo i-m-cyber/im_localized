@@ -1,0 +1,9 @@
+{
+	"@@locale": "en",
+	// login
+	"login_button": "Log in",
+	"remember_me": "Remember me",
+	// General
+	"generalTodayLabel": "Today",
+	"generalYesterdayLabel": "Yesterday",
+}

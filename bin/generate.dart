@@ -43,7 +43,7 @@ void handleLangFiles() async {
   for (var file in files) {
     final fileExt = extension(file.path).toLowerCase();
 
-    if (!{'.json', '.arb'}.contains(fileExt)) {
+    if (!{'.json', '.jsonc', '.arb'}.contains(fileExt)) {
       continue;
     }
 
@@ -109,6 +109,8 @@ Future generateLocalesFile(
 // DO NOT EDIT. This is code generated via package:im_localized/generate.dart'
 // to regenerate run `flutter pub run im_localized:generate`'
 
+// ignore_for_file: constant_identifier_names, prefer_single_quotes
+
 abstract class LocaleKeys {
 ${allKeys.map((key) => "  static const $key = '$key';").join('\n')}
 }
@@ -135,6 +137,10 @@ Future<List<FileSystemEntity>> dirContents(Directory dir) {
 
 Future<dynamic> readJsonFile(String filePath) async {
   var input = await File(filePath).readAsString();
+  // remove comments
+  input = input.replaceAll(RegExp(r'\/\/.*\n'), '');
+  // remove trailing commas
+  input = input.replaceAll(RegExp(r',\s*}'), '}');
   return jsonDecode(input);
 }
 
