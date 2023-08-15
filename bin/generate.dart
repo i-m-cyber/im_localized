@@ -111,6 +111,8 @@ Future generateLocalesFile(
 
 // ignore_for_file: constant_identifier_names, prefer_single_quotes
 
+export 'package:im_localized/im_localized.dart';
+
 abstract class LocaleKeys {
 ${allKeys.map((key) => "  static const $key = '$key';").join('\n')}
 }

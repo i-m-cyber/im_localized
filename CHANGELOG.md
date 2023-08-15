@@ -1,3 +1,7 @@
+## 0.0.10
+
+add "export 'package:im_localized/im_localized.dart';" to generated localization.dart file
+
 ## 0.0.9
 
 * add support for .jsonc files
