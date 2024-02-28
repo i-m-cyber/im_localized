@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:im_localized/src/generators/generate_localization_file.dart';
 import 'package:intl/locale.dart';
 
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
-import 'package:path/path.dart';
 
 void main(List<String> rawArgs) {
   final args = parseArgs(rawArgs);
@@ -41,13 +41,13 @@ void handleLangFiles() async {
   final localTranslations = <Locale, Map<String, String>>{};
 
   for (var file in files) {
-    final fileExt = extension(file.path).toLowerCase();
+    final fileExt = path.extension(file.path).toLowerCase();
 
     if (!{'.json', '.jsonc', '.arb'}.contains(fileExt)) {
       continue;
     }
 
-    final fileName = basenameWithoutExtension(file.path);
+    final fileName = path.basenameWithoutExtension(file.path);
 
     try {
       final locale = Locale.parse(fileName);
@@ -78,8 +78,9 @@ void handleLangFiles() async {
   }
 
   if (localTranslations.isEmpty) {
-    printError(
-        'No locale files found. Please create *.json or *.arb files at ${l10nPath.path}\ni.e. ${join(l10nPath.path, 'en.json')}');
+    printError('No locale files found. Please create *.json or *.arb files '
+        'at ${l10nPath.path}\n'
+        'i.e. ${path.join(l10nPath.path, 'en.json')}');
     return;
   }
 
@@ -90,37 +91,7 @@ Future generateLocalesFile(
   Map<Locale, Map<String, String>> localTranslations,
   Directory l10nPath,
 ) async {
-  final allKeys = localTranslations.values
-      .map((e) => e.keys)
-      .expand((e) => e)
-      .toSet()
-      .where((key) => !key.startsWith('@@'))
-      .toList()
-    ..sort();
-
-  final sorted = localTranslations.entries.toList()
-    ..sort((a, b) => a.key.toString().compareTo(b.key.toString()));
-
-  String includeTranslation(Map<String, String> translation) {
-    return '  {\n${translation.entries.map((entry) => '    ${entry.key.startsWith('@@') ? '"${entry.key}"' : 'LocaleKeys.${entry.key}'}: ${jsonEncode(entry.value)},').join('\n')}\n  },';
-  }
-
-  final content = '''
-// DO NOT EDIT. This is code generated via package:im_localized/generate.dart'
-// to regenerate run `flutter pub run im_localized:generate`'
-
-// ignore_for_file: constant_identifier_names, prefer_single_quotes
-
-export 'package:im_localized/im_localized.dart';
-
-abstract class LocaleKeys {
-${allKeys.map((key) => "  static const $key = '$key';").join('\n')}
-}
-
-final initialTranslations = [
-${sorted.map((entry) => includeTranslation(entry.value)).join('\n')}
-];
-''';
+  final content = generateLocalizationFileFromMap(localTranslations);
 
   final file = File(path.join(l10nPath.path, 'localization.dart'));
   await file.writeAsString(content);

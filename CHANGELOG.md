@@ -1,6 +1,12 @@
+# Change Log
+
+## 0.0.11
+
+* extract generateLocalizationFileFromJsonList and generateLocalizationFileFromMap to separate file to make it available for library users
+
 ## 0.0.10
 
-add "export 'package:im_localized/im_localized.dart';" to generated localization.dart file
+* add "export 'package:im_localized/im_localized.dart';" to generated localization.dart file
 
 ## 0.0.9
 
