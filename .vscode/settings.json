@@ -1,23 +1,24 @@
 {
-	"cSpell.words": [
-		"activo",
-		"activos",
-		"Actualmente",
-		"aissat",
-		"aplicación",
-		"artículo",
-		"artículos",
-		"días",
-		"elemento",
-		"elementos",
-		"esta",
-		"funcionamiento",
-		"Hola",
-		"Incremento",
-		"Nonterminal",
-		"pubspec",
-		"servicio",
-		"servicios",
-		"Subtags"
-	]
+  "cSpell.words": [
+    "activo",
+    "activos",
+    "Actualmente",
+    "aissat",
+    "aplicación",
+    "artículo",
+    "artículos",
+    "días",
+    "elemento",
+    "elementos",
+    "esta",
+    "funcionamiento",
+    "Hola",
+    "Incremento",
+    "Nonterminal",
+    "pubspec",
+    "servicio",
+    "servicios",
+    "Subtags"
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.22.2"
 }

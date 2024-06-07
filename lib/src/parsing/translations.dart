@@ -170,7 +170,7 @@ class Translations {
           translationEntry.key.supports(locale ?? activeLocale),
       orElse: () => translationEntries.first,
     );
-
+    // print(match.value.translate(args ?? const {}));
     return match.value.translate(args ?? const {});
   }
 

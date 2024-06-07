@@ -76,7 +76,7 @@ class ImLocalizedApp extends StatefulWidget {
   }) {
     assert(initialTranslations.isNotEmpty);
 
-    final translations = Translations.fromList(initialTranslations);
+    final translations = Translations.fromList(initialTranslations, activeLocale: startLocale);
 
     return ImLocalizedApp._(
       key: key,
@@ -99,7 +99,7 @@ class ImLocalizedApp extends StatefulWidget {
       _ImLocalizedProvider.of(context);
 
   /// logger from package:logger
-  static Logger logger = Logger(level: Level.nothing);
+  static Logger logger = Logger(level: Level.off);
 }
 
 class _ImLocalizedAppState extends State<ImLocalizedApp> {

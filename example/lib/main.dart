@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'package:im_localized/im_localized.dart';
-
 import 'l10n/localization.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     ImLocalizedApp.fromList(
       /// initial translations loaded from RAM
