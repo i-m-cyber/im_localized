@@ -2,6 +2,10 @@
 
 ## 0.0.11
 
+* flutter 3.22 support, startLocale fixed
+
+## 0.0.11
+
 * extract generateLocalizationFileFromJsonList and generateLocalizationFileFromMap to separate file to make it available for library users
 
 ## 0.0.10
