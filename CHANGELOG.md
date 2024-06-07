@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.0.11
+## 0.0.12
 
 * flutter 3.22 support, startLocale fixed
 
