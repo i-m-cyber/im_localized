@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.13
+
+* missing keys fix
+
 ## 0.0.12
 
 * flutter 3.22 support, startLocale fixed

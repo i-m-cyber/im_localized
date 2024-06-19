@@ -80,6 +80,22 @@ class AppResourceBundle {
   String toString() {
     return 'AppResourceBundle($locale)';
   }
+
+  AppResourceBundle merge(AppResourceBundle tmp) {
+    final Map<String, Object?> mergedResources = Map<String, Object?>.from(
+      resources,
+    )..addAll(tmp.resources);
+
+    final Iterable<String> mergedIds = mergedResources.keys
+        .where((String key) => !key.startsWith('@'))
+        .toSet();
+
+    return AppResourceBundle._(
+      locale,
+      resources,
+      mergedIds,
+    );
+  }
 }
 
 // A set containing all the ISO630-1 languages. This list was pulled from https://datahub.io/core/language-codes.

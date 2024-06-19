@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:im_localized/im_localized.dart';
+import 'package:im_localized/src/parsing/app_resource_bundle.dart';
 import 'package:im_localized/src/utils/utils.dart';
 
 import 'app_resource_bundle_collection.dart';
@@ -37,7 +38,12 @@ class Translations {
   }) {
     final bundleCollection = AppResourceBundleCollection(localizationData);
     final translations = <String, Map<Locale, Translation>>{};
-    final bundle = bundleCollection.bundles.first;
+    AppResourceBundle? bundle;
+    for (final tmp in bundleCollection.bundles) {
+      bundle = bundle?.merge(tmp);
+    }
+    bundle ??= bundleCollection.bundles.first;
+
     for (final resourceId in bundle.resourceIds) {
       final message = Message(
         templateBundle: bundle,
