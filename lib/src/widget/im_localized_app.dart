@@ -76,7 +76,8 @@ class ImLocalizedApp extends StatefulWidget {
   }) {
     assert(initialTranslations.isNotEmpty);
 
-    final translations = Translations.fromList(initialTranslations, activeLocale: startLocale);
+    final translations =
+        Translations.fromList(initialTranslations, activeLocale: startLocale);
 
     return ImLocalizedApp._(
       key: key,

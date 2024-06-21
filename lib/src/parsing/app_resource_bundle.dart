@@ -82,19 +82,22 @@ class AppResourceBundle {
   }
 
   AppResourceBundle merge(AppResourceBundle tmp) {
-    final Map<String, Object?> mergedResources = Map<String, Object?>.from(
-      resources,
-    )..addAll(tmp.resources);
+    if (locale != tmp.locale) {
+      final Map<String, Object?> mergedResources = Map<String, Object?>.from(
+        resources,
+      )..addAll(tmp.resources);
 
-    final Iterable<String> mergedIds = mergedResources.keys
-        .where((String key) => !key.startsWith('@'))
-        .toSet();
+      final Iterable<String> mergedIds = mergedResources.keys
+          .where((String key) => !key.startsWith('@'))
+          .toSet();
 
-    return AppResourceBundle._(
-      locale,
-      resources,
-      mergedIds,
-    );
+      return AppResourceBundle._(
+        locale,
+        mergedResources,
+        mergedIds,
+      );
+    }
+    return this;
   }
 }
 

@@ -50,7 +50,19 @@ ${allKeys.map((key) => "  static const $key = '$key';").join('\n')}
 }
 
 final initialTranslations = [
-${sorted.map((entry) => includeTranslation(entry.value)).join('\n')}
+${sorted.map((entry) {
+    /// if do not have all kezs add it as key:key
+    final translation = entry.value;
+    for (var key in allKeys) {
+      if (!translation.containsKey(key)) {
+        ///ignore: avoid_print
+        print(
+            '⚠️ Missing key: $key in ${entry.key}! Key added with value: $key');
+        translation[key] = key;
+      }
+    }
+    return includeTranslation(translation);
+  }).join('\n')}
 ];
 ''';
 }

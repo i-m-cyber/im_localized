@@ -130,8 +130,8 @@ class ImLocalizedController extends ChangeNotifier {
   //    private
   //******************************************/
 
-  Future<void> _init(List<Locale> supportedLocales,
-  {
+  Future<void> _init(
+    List<Locale> supportedLocales, {
     Locale? startLocale,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();

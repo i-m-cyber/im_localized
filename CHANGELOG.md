@@ -3,6 +3,7 @@
 ## 0.0.13
 
 * missing keys fix
+* generator fix to add all keys to all languages
 
 ## 0.0.12
 
