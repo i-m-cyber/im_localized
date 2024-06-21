@@ -1,6 +1,6 @@
 name: im_localized
 description: Flutter ICU compatible Localization library with support for JSONs, runtime parsing and injecting
-version: 0.0.12
+version: 0.0.13
 repository: https://github.com/i-m-cyber/im_localized
 
 environment:
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   args: ^2.4.2
+  collection: any
   intl: ^0.19.0
   logger: ^2.0.2+1
   path: ^1.8.3

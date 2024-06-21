@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:collection/collection.dart';
 
 import 'package:flutter/material.dart';
 import 'package:im_localized/im_localized.dart';
+import 'package:im_localized/src/parsing/app_resource_bundle.dart';
 import 'package:im_localized/src/utils/utils.dart';
 
 import 'app_resource_bundle_collection.dart';
@@ -37,7 +39,12 @@ class Translations {
   }) {
     final bundleCollection = AppResourceBundleCollection(localizationData);
     final translations = <String, Map<Locale, Translation>>{};
-    final bundle = bundleCollection.bundles.first;
+    AppResourceBundle? bundle = bundleCollection.bundles.first;
+    for (final tmp in bundleCollection.bundles) {
+      bundle = bundle?.merge(tmp);
+    }
+    bundle ??= bundleCollection.bundles.first;
+
     for (final resourceId in bundle.resourceIds) {
       final message = Message(
         templateBundle: bundle,
@@ -165,12 +172,14 @@ class Translations {
       );
     }
 
-    final match = translationEntries.firstWhere(
+    final match = translationEntries.firstWhereOrNull(
       (translationEntry) =>
           translationEntry.key.supports(locale ?? activeLocale),
-      orElse: () => translationEntries.first,
+      // orElse: () => translationEntries.first,
     );
-    // print(match.value.translate(args ?? const {}));
+    if (match == null) {
+      return resourceId;
+    }
     return match.value.translate(args ?? const {});
   }
 
