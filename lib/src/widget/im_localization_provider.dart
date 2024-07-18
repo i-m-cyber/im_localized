@@ -2,7 +2,7 @@ part of 'im_localized_app.dart';
 
 class _ImLocalizedProvider extends InheritedWidget {
   final ImLocalizedApp parent;
-  final ImLocalizedController _controller;
+  final ImLocalizedController localizationController;
   final Locale? currentLocale;
   final _ImLocalizationDelegate delegate;
 
@@ -30,15 +30,16 @@ class _ImLocalizedProvider extends InheritedWidget {
 
   _ImLocalizedProvider(
     this.parent,
-    this._controller, {
+    this.localizationController, {
     required this.delegate,
-  })  : currentLocale = _controller.locale,
-        super(child: _controller.initialized ? parent.app : _loaderApp) {
+  })  : currentLocale = localizationController.locale,
+        super(child: localizationController.initialized ? parent.app : _loaderApp) {
     ImLocalizedApp.logger.d('Init provider');
+    localizationController.updateListener();
   }
 
   /// Get current locale
-  Locale get locale => _controller.locale;
+  Locale get locale => localizationController.locale;
 
   /// Get fallback locale
   List<Locale> get fallbackLocales => parent.fallbackLocales;
@@ -47,28 +48,28 @@ class _ImLocalizedProvider extends InheritedWidget {
   /// Change app locale
   Future<void> setLocale(Locale locale) async {
     // Check old locale
-    if (locale != _controller.locale) {
+    if (locale != localizationController.locale) {
       assert(parent.supportedLocales.contains(locale));
-      await _controller.setLocale(locale);
+      await localizationController.setLocale(locale);
     }
   }
 
   /// Clears a saved locale from device storage
   Future<void> deleteSavedLocale() async {
-    await _controller.deleteSavedLocale();
+    await localizationController.deleteSavedLocale();
   }
 
   /// Getting device locale from platform
-  Locale get deviceLocale => _controller.deviceLocale;
+  Locale get deviceLocale => localizationController.deviceLocale;
 
   /// Reset locale to platform locale
-  Future<void> resetLocale() => _controller.resetLocale();
+  Future<void> resetLocale() => localizationController.resetLocale();
 
   /// Sets new translations and saves it to storage if translationsStorage
   /// is not null
   Future<void> injectTranslations(
           List<Map<LocalizationKey, LocalizationValue>> next) =>
-      _controller.injectTranslations(next);
+      localizationController.injectTranslations(next);
 
   @override
   bool updateShouldNotify(_ImLocalizedProvider oldWidget) {

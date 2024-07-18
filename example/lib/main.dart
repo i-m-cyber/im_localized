@@ -5,18 +5,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    ImLocalizedApp.fromList(
-      /// initial translations loaded from RAM
-      initialTranslations: initialTranslations,
-
-      /// save locale changes to local storage
-      localeStorage: SharedPreferencesLocaleStorage(),
-
-      /// save injected translations to local storage
-      translationsStorage: SharedPreferencesTranslationsStorage(),
-
-      app: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
@@ -30,17 +19,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _count = 0;
+  List<Map<String, String>> localizations = initialTranslations;
 
-  void _incrementCounter() {
-    setState(() {
-      _count++;
-    });
+  @override
+  void initState() {
+    localizations = initialTranslations;
+    super.initState();
   }
 
   void _injectLanguages() {
-    context.injectTranslations(
-      [
+    localizations = [
         {
           "@@locale": "en",
           LocaleKeys.languageFlag: "English",
@@ -55,7 +43,60 @@ class _MyAppState extends State<MyApp> {
           LocaleKeys.itemCounter:
               "{ count, plural, =0{sin artículos} =1{un artículo} other{hay # artículos}}",
         },
-      ],
+      ];
+    setState(() {
+      localizations = localizations;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ImLocalizedApp.fromList(
+      /// initial translations loaded from RAM
+      initialTranslations: localizations,
+
+      /// save locale changes to local storage
+      localeStorage: SharedPreferencesLocaleStorage(),
+
+      // /// save injected translations to local storage
+      // translationsStorage: SharedPreferencesTranslationsStorage(),
+
+      app: AppWidget(injectLanguages: _injectLanguages,),
+    );
+  }
+}
+
+class AppWidget extends StatefulWidget {
+  const AppWidget({super.key, required this.injectLanguages});
+  final Function injectLanguages;
+  @override
+  State<AppWidget> createState() => _AppWidgetState();
+}
+
+class _AppWidgetState extends State<AppWidget> {
+  int _count = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _count++;
+    });
+  }
+
+  Widget _buildLanguageSelector() {
+    return DropdownButton<Locale>(
+      value: context.locale,
+      onChanged: (Locale? locale) {
+        if (locale != null) {
+          context.setLocale(locale);
+        }
+      },
+      items: context.supportedLocales
+          .map<DropdownMenuItem<Locale>>((Locale locale) {
+        return DropdownMenuItem<Locale>(
+          value: locale,
+          child: Text(LocaleKeys.languageFlag.translate(locale: locale)),
+        );
+      }).toList(),
     );
   }
 
@@ -111,7 +152,7 @@ class _MyAppState extends State<MyApp> {
                   icon: const Icon(Icons.add),
                 ),
                 IconButton(
-                  onPressed: _injectLanguages,
+                  onPressed: () => widget.injectLanguages(),
                   icon: const Icon(Icons.cloud_download),
                 ),
               ],
@@ -121,22 +162,5 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  Widget _buildLanguageSelector() {
-    return DropdownButton<Locale>(
-      value: context.locale,
-      onChanged: (Locale? locale) {
-        if (locale != null) {
-          context.setLocale(locale);
-        }
-      },
-      items: context.supportedLocales
-          .map<DropdownMenuItem<Locale>>((Locale locale) {
-        return DropdownMenuItem<Locale>(
-          value: locale,
-          child: Text(LocaleKeys.languageFlag.translate(locale: locale)),
-        );
-      }).toList(),
-    );
-  }
 }
+

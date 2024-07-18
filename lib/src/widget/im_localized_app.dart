@@ -122,7 +122,14 @@ class _ImLocalizedAppState extends State<ImLocalizedApp> {
 
     // rebuild when locale changes or new translations get injected
     localizationController!.addListener(() {
-      if (mounted) setState(() {});
+      if (mounted) {
+        setState(() {
+        localizationController?.setTranslations(
+          widget._initialTranslations!,
+          updateListener: false,
+        );
+      });
+      }
     });
 
     super.initState();
