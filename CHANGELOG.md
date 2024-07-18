@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.14
+
+* rebuild on translations change
+* example update
+
 ## 0.0.13
 
 * missing keys fix
