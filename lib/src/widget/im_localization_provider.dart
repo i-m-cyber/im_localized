@@ -33,7 +33,9 @@ class _ImLocalizedProvider extends InheritedWidget {
     this.localizationController, {
     required this.delegate,
   })  : currentLocale = localizationController.locale,
-        super(child: localizationController.initialized ? parent.app : _loaderApp) {
+        super(
+            child:
+                localizationController.initialized ? parent.app : _loaderApp) {
     ImLocalizedApp.logger.d('Init provider');
     localizationController.updateListener();
   }

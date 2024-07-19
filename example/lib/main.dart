@@ -29,21 +29,21 @@ class _MyAppState extends State<MyApp> {
 
   void _injectLanguages() {
     localizations = [
-        {
-          "@@locale": "en",
-          LocaleKeys.languageFlag: "English",
-          LocaleKeys.hiMessage: "Hello {name}!",
-          LocaleKeys.itemCounter:
-              "{ count, plural, =0{no items} =1{one item} other{there are # items}}",
-        },
-        {
-          "@@locale": "es",
-          LocaleKeys.languageFlag: "Spanish",
-          LocaleKeys.hiMessage: "¡Buenos días {name}!",
-          LocaleKeys.itemCounter:
-              "{ count, plural, =0{sin artículos} =1{un artículo} other{hay # artículos}}",
-        },
-      ];
+      {
+        "@@locale": "es",
+        LocaleKeys.languageFlag: "Spanish",
+        LocaleKeys.hiMessage: "¡Buenos días {name}!",
+        LocaleKeys.itemCounter:
+            "{ count, plural, =0{sin artículos} =1{un artículo} other{hay # artículos}}",
+      },
+      {
+        "@@locale": "en",
+        LocaleKeys.languageFlag: "English",
+        LocaleKeys.hiMessage: "Hello {name}!",
+        LocaleKeys.itemCounter:
+            "{ count, plural, =0{no items} =1{one item} other{there are # items}}",
+      },
+    ];
     setState(() {
       localizations = localizations;
     });
@@ -61,7 +61,9 @@ class _MyAppState extends State<MyApp> {
       // /// save injected translations to local storage
       // translationsStorage: SharedPreferencesTranslationsStorage(),
 
-      app: AppWidget(injectLanguages: _injectLanguages,),
+      app: AppWidget(
+        injectLanguages: _injectLanguages,
+      ),
     );
   }
 }
@@ -163,4 +165,3 @@ class _AppWidgetState extends State<AppWidget> {
     );
   }
 }
-
