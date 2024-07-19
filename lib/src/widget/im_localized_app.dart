@@ -124,11 +124,13 @@ class _ImLocalizedAppState extends State<ImLocalizedApp> {
     localizationController!.addListener(() {
       if (mounted) {
         setState(() {
-        localizationController?.setTranslations(
-          widget._initialTranslations!,
-          updateListener: false,
-        );
-      });
+          localizationController?.setTranslations(
+            widget._initialTranslations!.copyWith(
+              activeLocale: localizationController?.locale,
+            ),
+            updateListener: false,
+          );
+        });
       }
     });
 

@@ -114,24 +114,23 @@ class ImLocalizedController extends ChangeNotifier {
   /// Sets new translations and saves it to storage if translationsStorage
   /// is not null
   Future<void> injectTranslations(
-    List<Map<LocalizationKey, LocalizationValue>> next,
-      { bool updateListener = true,}
-      ) async {
+    List<Map<LocalizationKey, LocalizationValue>> next, {
+    bool updateListener = true,
+  }) async {
     final nextTranslations =
         Translations.fromList(next, activeLocale: _translations?.activeLocale);
 
     _setTranslations(nextTranslations);
-   if (updateListener) notifyListeners();
+    if (updateListener) notifyListeners();
     if (translationsStorage != null) {
       return translationsStorage!.saveTranslations(_translations!);
     }
   }
 
   Future<void> setTranslations(
-      Translations next,
-      { bool updateListener = true,}
-      ) async {
-
+    Translations next, {
+    bool updateListener = true,
+  }) async {
     _setTranslations(next);
     if (updateListener) notifyListeners();
     if (translationsStorage != null) {
